@@ -1,0 +1,100 @@
+#!/bin/sh
+#
+# create React Native template structure for app development
+# - copy files, create directories for initial app
+# - copy config, metadata &c.
+# - template support for version
+#   - bare template
+
+#### initial config
+#
+ADMIN="madelinemoran"
+VERSION="0.2"
+app_dir="$PWD"
+home_dir=~
+# update tpl_dir to path to templates dir on local system
+tpl_dir="$home_dir/Apps/templates"
+bare_tpl_dir="$tpl_dir/bare"
+
+############
+# Helper FNs
+############
+
+###### FN
+# name: app_header
+# desc: output custom app header and intro text
+#
+app_header() {
+	echo $'\n'"------"
+	echo "| Template mover - React Native Apps"
+	echo "| @spire-signpost"
+	echo "------"
+}
+
+default() {
+	echo $'\n'"Overview"
+	echo $'\n'"------"
+	echo $'\n'"A simple app to copy initial template files for React Native development."
+	echo $'\n'"------"$'\n'
+}
+
+###### FN
+# name: tpl_menu
+# desc: select initial template type
+#	- e.g. basic, stack navigation, drawer, tabs &c.
+#
+tpl_menu() {
+	echo $'\n'"Current template options:"$'\n'
+	echo "b = basic template"
+	echo "------"
+	echo $'\n'
+}
+
+#############
+# TPL Loaders
+#############
+
+###### FN
+# name: bare_tpl
+# desc: copy initial files and dirs for basic app development
+#
+bare_tpl() {
+	echo $'\n'"Copying basic template files and directories..."
+	# remove default files
+	# - index.js, App.tsx, tsconfig.json
+	rm "$app_dir/index.js" "$app_dir/App.tsx" "$app_dir/tsconfig.json"	
+	# create directories in source app
+	# - empty dirs for common app usage
+	mkdir "$app_dir/config" "$app_dir/docs"
+	# copy files to source app from existing tpl
+	# - index.js, src/ dir
+	cp "$bare_tpl_dir/index.js" "$app_dir"
+	cp -r "$bare_tpl_dir/src" "$app_dir"
+}
+
+######
+# MAIN
+######
+# name: main
+# desc: bootstrap initial app setup and options
+#
+main() {
+	app_header
+	default
+	tpl_menu
+	bare_tpl
+}
+
+# start app
+main
+
+###### app usage
+# - executed for running app
+# - case selection for app fn calls
+# - tpl selection &c.
+#
+case "$1" in
+	[Bb]) bare_tpl ;;
+	[Hh][Ee][Ll][Pp]) tpl_menu ;;
+	*) default ;;
+esac	
